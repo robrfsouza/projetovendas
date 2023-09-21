@@ -23,7 +23,7 @@ public class ClientesDAO {
 
 	// Metodo cadastrarCliente
 
-	public void cadastrarCliente(Clientes obj) {
+	public void cadastrarCliente(Clientes clientes) {
 
 		try {
 			// criar o comando sql
@@ -33,19 +33,19 @@ public class ClientesDAO {
 
 			// conectar o banco de dados e organizar o comando sql
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, obj.getNome());
-			stmt.setString(2, obj.getRg());
-			stmt.setString(3, obj.getCpf());
-			stmt.setString(4, obj.getEmail());
-			stmt.setString(5, obj.getTelefone());
-			stmt.setString(6, obj.getCelular());
-			stmt.setString(7, obj.getCep());
-			stmt.setString(8, obj.getEndereco());
-			stmt.setInt(9, obj.getNumero());
-			stmt.setString(10, obj.getComplemento());
-			stmt.setString(11, obj.getBairro());
-			stmt.setString(12, obj.getCidade());
-			stmt.setString(13, obj.getUf());
+			stmt.setString(1, clientes.getNome());
+			stmt.setString(2, clientes.getRg());
+			stmt.setString(3, clientes.getCpf());
+			stmt.setString(4, clientes.getEmail());
+			stmt.setString(5, clientes.getTelefone());
+			stmt.setString(6, clientes.getCelular());
+			stmt.setString(7, clientes.getCep());
+			stmt.setString(8, clientes.getEndereco());
+			stmt.setInt(9, clientes.getNumero());
+			stmt.setString(10, clientes.getComplemento());
+			stmt.setString(11, clientes.getBairro());
+			stmt.setString(12, clientes.getCidade());
+			stmt.setString(13, clientes.getUf());
 
 			// executar o comando sql
 			stmt.execute();
@@ -61,7 +61,7 @@ public class ClientesDAO {
 
 	// Metodo alterarCliente
 
-	public void alterarCliente(Clientes obj) {
+	public void alterarCliente(Clientes clientes) {
 		try {
 			// criar o comando sql
 			String sql = "update tb_clientes set nome=?, rg=?, cpf=?, email=?, telefone=?, celular=?, "
@@ -69,21 +69,20 @@ public class ClientesDAO {
 
 			// conectar o banco de dados e organizar o comando sql
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, obj.getNome());
-			stmt.setString(2, obj.getRg());
-			stmt.setString(3, obj.getCpf());
-			stmt.setString(4, obj.getEmail());
-			stmt.setString(5, obj.getTelefone());
-			stmt.setString(6, obj.getCelular());
-			stmt.setString(7, obj.getCep());
-			stmt.setString(8, obj.getEndereco());
-			stmt.setInt(9, obj.getNumero());
-			stmt.setString(10, obj.getComplemento());
-			stmt.setString(11, obj.getBairro());
-			stmt.setString(12, obj.getCidade());
-			stmt.setString(13, obj.getUf());
-			stmt.setInt(14, obj.getId());
-			;
+			stmt.setString(1, clientes.getNome());
+			stmt.setString(2, clientes.getRg());
+			stmt.setString(3, clientes.getCpf());
+			stmt.setString(4, clientes.getEmail());
+			stmt.setString(5, clientes.getTelefone());
+			stmt.setString(6, clientes.getCelular());
+			stmt.setString(7, clientes.getCep());
+			stmt.setString(8, clientes.getEndereco());
+			stmt.setInt(9, clientes.getNumero());
+			stmt.setString(10, clientes.getComplemento());
+			stmt.setString(11, clientes.getBairro());
+			stmt.setString(12, clientes.getCidade());
+			stmt.setString(13, clientes.getUf());
+			stmt.setInt(14, clientes.getId());
 
 			// executar o comando sql
 			stmt.execute();
@@ -98,14 +97,14 @@ public class ClientesDAO {
 	}
 
 	// Metodo excluirCliente
-	public void excluirCliente(Clientes obj) {
+	public void excluirCliente(Clientes clientes) {
 		try {
 			// criar o comando sql
 			String sql = "delete from tb_clientes where id=?";
 
 			// conectar o banco de dados e organizar o comando sql
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, obj.getId());
+			stmt.setInt(1, clientes.getId());
 			;
 
 			// executar o comando sql
@@ -137,7 +136,7 @@ public class ClientesDAO {
 
 			while (resultSet.next()) {
 
-				// criar um objeto cliente
+				// criar um cliente set cliente
 				Clientes clientes = new Clientes();
 
 				clientes.setId(resultSet.getInt("id"));
@@ -185,7 +184,7 @@ public class ClientesDAO {
 
 			while (resultSet.next()) {
 
-				// criar um objeto cliente
+				// criar um clienteseto cliente
 				Clientes clientes = new Clientes();
 
 				clientes.setId(resultSet.getInt("id"));
@@ -226,7 +225,7 @@ public class ClientesDAO {
 			stmt.setNString(1, nome);
 			ResultSet resultSet = stmt.executeQuery();
 
-			// criar um objeto cliente
+			// criar um clienteseto cliente
 			Clientes clientes = new Clientes();
 			if (resultSet.next()) {
 				clientes.setId(resultSet.getInt("id"));
@@ -259,14 +258,14 @@ public class ClientesDAO {
 
 		WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
 
-		Clientes obj = new Clientes();
+		Clientes clientes = new Clientes();
 
 		if (webServiceCep.wasSuccessful()) {
-			obj.setEndereco(webServiceCep.getLogradouroFull());
-			obj.setCidade(webServiceCep.getCidade());
-			obj.setBairro(webServiceCep.getBairro());
-			obj.setUf(webServiceCep.getUf());
-			return obj;
+			clientes.setEndereco(webServiceCep.getLogradouroFull());
+			clientes.setCidade(webServiceCep.getCidade());
+			clientes.setBairro(webServiceCep.getBairro());
+			clientes.setUf(webServiceCep.getUf());
+			return clientes;
 		} else {
 			JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());
 			JOptionPane.showMessageDialog(null, "Descrição do erro: " + webServiceCep.getResultText());

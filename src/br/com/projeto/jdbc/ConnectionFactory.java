@@ -3,7 +3,6 @@ package br.com.projeto.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import javax.management.RuntimeErrorException;
 
 
 public class ConnectionFactory {
