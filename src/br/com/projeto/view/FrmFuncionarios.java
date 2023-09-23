@@ -95,7 +95,7 @@ public class FrmFuncionarios extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(128, 128, 192));
-		panel.setBounds(0, 0, 907, 74);
+		panel.setBounds(0, 0, 900, 74);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -497,7 +497,7 @@ public class FrmFuncionarios extends JFrame {
 
 		// Adicione a tabela a um JScrollPane
 		JScrollPane scrollPane = new JScrollPane(tblFuncionarios);
-		scrollPane.setBounds(0, 56, 887, 102); // Defina as dimensões apropriadas
+		scrollPane.setBounds(0, 56, 887, 145); // Defina as dimensões apropriadas
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // Configura a barra de
 																								// rolagem vertical
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); // configura a barra

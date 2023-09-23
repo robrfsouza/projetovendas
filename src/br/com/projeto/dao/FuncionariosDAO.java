@@ -13,7 +13,7 @@ import br.com.projeto.jdbc.ConnectionFactory;
 import br.com.projeto.model.Funcionarios;
 import br.com.projeto.model.WebServiceCep;
 import br.com.projeto.view.FrmLogin;
-import br.com.projeto.view.FrmMenu;
+import br.com.projeto.view.FrmPrincipal;
 
 public class FuncionariosDAO {
 
@@ -300,13 +300,19 @@ public class FuncionariosDAO {
 			if(resultset.next()) {
 				//logou
 				JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema!");
-				FrmMenu menu = new FrmMenu();
-				menu.setVisible(true);
+				FrmPrincipal principal = new FrmPrincipal();
+				principal.usuarioLogado=resultset.getString("nome");
+				principal.lblUsuario.setText(principal.usuarioLogado);
+				principal.setVisible(true);
 			
 			}
 			else {
 				// nao logou
 				JOptionPane.showMessageDialog(null, "Dados incorretos!");
+				FrmLogin frmLogin = new FrmLogin();
+				frmLogin.setLocationRelativeTo(null);
+				frmLogin.setVisible(true);
+				
 			}
 				
 			

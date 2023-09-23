@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -19,10 +21,40 @@ import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Timer;
 
-public class FrmMenu extends JFrame {
+import javax.swing.*;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.BoxLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.CardLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+
+import br.com.projeto.dao.FuncionariosDAO;
+import br.com.projeto.model.Funcionarios;
+import br.com.projeto.model.Utilitarios;
+
+import java.awt.Font;
+
+public class FrmPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	public String usuarioLogado;
+	public JLabel lblUsuario = new JLabel();
+	private JLabel lblDataHora = new JLabel();
 
 	ImageIcon icon = new ImageIcon(getClass().getResource("/imagem/fundo.jpg"));
 
@@ -33,6 +65,8 @@ public class FrmMenu extends JFrame {
 			g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 		}
 	};
+	private final JPanel pnlBarraStatus = new JPanel();
+
 
 	/**
 	 * Launch the application.
@@ -41,7 +75,7 @@ public class FrmMenu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmMenu frame = new FrmMenu();
+					FrmPrincipal frame = new FrmPrincipal();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,16 +88,17 @@ public class FrmMenu extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmMenu() {
+	public FrmPrincipal() {
 		setTitle("Sistema de Controle de Estoque");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 907, 425);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
 		JMenu mnNewMenu = new JMenu("Clientes");
-		mnNewMenu.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/clientes.png")));
+		mnNewMenu.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/clientes.png")));
 		menuBar.add(mnNewMenu);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Controle de Clientes");
@@ -74,7 +109,7 @@ public class FrmMenu extends JFrame {
 		mnNewMenu.add(mntmNewMenuItem);
 
 		JMenu mnNewMenu_1 = new JMenu("Funcionários");
-		mnNewMenu_1.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/funcionarios.png")));
+		mnNewMenu_1.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/funcionarios.png")));
 		menuBar.add(mnNewMenu_1);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Controle de Funcionários");
@@ -82,7 +117,7 @@ public class FrmMenu extends JFrame {
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 
 		JMenu mnNewMenu_2 = new JMenu("Fornecedores");
-		mnNewMenu_2.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/fornecedores.png")));
+		mnNewMenu_2.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/fornecedores.png")));
 		menuBar.add(mnNewMenu_2);
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Controle de Fornecedores");
@@ -90,7 +125,7 @@ public class FrmMenu extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_2);
 
 		JMenu mnNewMenu_3 = new JMenu("Produtos");
-		mnNewMenu_3.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/produtos.png")));
+		mnNewMenu_3.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/produtos.png")));
 		menuBar.add(mnNewMenu_3);
 
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Controle de Estoque");
@@ -105,7 +140,7 @@ public class FrmMenu extends JFrame {
 		mnNewMenu_3.add(mntmNewMenuItem_4);
 
 		JMenu mnNewMenu_5 = new JMenu("Vendas");
-		mnNewMenu_5.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/vendas.png")));
+		mnNewMenu_5.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/vendas.png")));
 		menuBar.add(mnNewMenu_5);
 
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Abrir PDV");
@@ -121,7 +156,7 @@ public class FrmMenu extends JFrame {
 		mnNewMenu_5.add(mntmNewMenuItem_8);
 
 		JMenu mnNewMenu_4 = new JMenu("Configurações");
-		mnNewMenu_4.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/configuracoes.png")));
+		mnNewMenu_4.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/configuracoes.png")));
 		menuBar.add(mnNewMenu_4);
 
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Troca de Usuário");
@@ -129,15 +164,55 @@ public class FrmMenu extends JFrame {
 		mnNewMenu_4.add(mntmNewMenuItem_5);
 
 		JMenu mnNewMenu_6 = new JMenu("Sair");
-		mnNewMenu_6.setIcon(new ImageIcon(FrmMenu.class.getResource("/imagem/sair.png")));
+		mnNewMenu_6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+		});
+		mnNewMenu_6.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/imagem/sair.png")));
 		menuBar.add(mnNewMenu_6);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
-		//contentPane.setLayout(null);
-		//painelDesktop.setBounds(0, 0, 891, 332);
-		contentPane.setLayout(new BorderLayout());
-		contentPane.add(painelDesktop);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(painelDesktop, BorderLayout.CENTER);
+		pnlBarraStatus.setBackground(new Color(128, 128, 192));
+		contentPane.add(pnlBarraStatus, BorderLayout.SOUTH);
+		pnlBarraStatus.setLayout(new MigLayout("", "[222.00px][533.00px][107.00][746.00px]", "[14px]"));
+		
+		JLabel lblNewLabel = new JLabel("Bem-vindo");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		pnlBarraStatus.add(lblNewLabel, "cell 0 0,alignx left,aligny center");
+		lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		//JLabel lblUsuario = new JLabel("Usuário");
+		lblUsuario.setForeground(new Color(255, 255, 255));
+		pnlBarraStatus.add(lblUsuario, "cell 2 0,alignx right,aligny center");
+		
+		
+		
+		//Criar um Timer para atualizar a JLabel a cada segundo
+		javax.swing.Timer timer = new javax.swing.Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				atualizarTempo();
+			}
+		});
+		timer.start();
+		
+		
+		
+		//String para ser alimentada do método AtualizadDataHora que está na classe utilitarios
+		String dataHora = Utilitarios.AtualizaDataHora();
+		lblDataHora.setFont(new Font("Tahoma", Font.BOLD, 11));
+		//Abaixo, o codigo pede que  lblDataHora exiba a data e a hora no sistema
+		lblDataHora.setText(dataHora);
+		pnlBarraStatus.add(lblDataHora, "cell 3 0,alignx right,aligny center");
+	}
+	public void atualizarTempo() {
+		String DataHora = Utilitarios.AtualizaDataHora();
+		lblDataHora.setText(DataHora);
 	}
 }

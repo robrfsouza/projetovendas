@@ -30,11 +30,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import br.com.projeto.dao.ClientesDAO;
-import br.com.projeto.model.Clientes;
+import br.com.projeto.dao.FornecedoresDAO;
+import br.com.projeto.model.Fornecedores;
 import br.com.projeto.model.Utilitarios;
 
-public class FrmClientes extends JFrame {
+public class FrmFornecedores extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,12 +48,11 @@ public class FrmClientes extends JFrame {
 	private JTextField txtComplemento;
 	private JTextField txtNumero;
 	private JTextField txtNomeConsulta;
-	private JFormattedTextField txtRg;
+	private JFormattedTextField txtCnpj;
 	private JFormattedTextField txtCep;
-	private JFormattedTextField txtCpf;
 	private JFormattedTextField txtTelefone;
 	private JFormattedTextField txtCelular;
-	private JTable tblClientes;
+	private JTable tblFornecedores;
 
 	/**
 	 * Launch the application.
@@ -63,7 +62,7 @@ public class FrmClientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmClientes frame = new FrmClientes();
+					FrmFornecedores frame = new FrmFornecedores();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -76,8 +75,8 @@ public class FrmClientes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmClientes() {
-		setTitle("Seja bem vindo ao Sistema - Cadastro de Clientes");
+	public FrmFornecedores() {
+		setTitle("Seja bem vindo ao Sistema - Cadastro de Fornecedores");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 907, 425);
 		contentPane = new JPanel();
@@ -93,7 +92,7 @@ public class FrmClientes extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Cadastro de Clientes");
+		JLabel lblNewLabel = new JLabel("Cadastro de Fornecedores");
 		lblNewLabel.setBounds(10, 21, 244, 29);
 		panel.add(lblNewLabel);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -233,30 +232,21 @@ public class FrmClientes extends JFrame {
 		cmbUF.setBounds(802, 95, 56, 23);
 		pnlDados.add(cmbUF);
 
-		JLabel lblNewLabel_1_1_1_1_3 = new JLabel("RG:");
+		JLabel lblNewLabel_1_1_1_1_3 = new JLabel("CNPJ");
 		lblNewLabel_1_1_1_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1_1_1_3.setBounds(10, 158, 48, 17);
 		pnlDados.add(lblNewLabel_1_1_1_1_3);
 
 		try {
-			txtRg = new JFormattedTextField(new MaskFormatter("##.######-#"));
-			txtRg.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			txtRg.setBounds(84, 156, 94, 20);
-			pnlDados.add(txtRg);
+			txtCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
+			txtCnpj.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			txtCnpj.setBounds(84, 156, 155, 20);
+			pnlDados.add(txtCnpj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		JLabel lblNewLabel_1_1_1_1_4 = new JLabel("CPF:");
-		lblNewLabel_1_1_1_1_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1_1_1_1_4.setBounds(205, 158, 48, 17);
-		pnlDados.add(lblNewLabel_1_1_1_1_4);
-
 		try {
-			txtCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-			txtCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			txtCpf.setBounds(278, 156, 130, 20);
-			pnlDados.add(txtCpf);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -277,14 +267,14 @@ public class FrmClientes extends JFrame {
 				public void keyPressed(KeyEvent e) {
 				//programcao keyevent
 				if(e.getKeyCode()== KeyEvent.VK_TAB || e.getKeyCode()==KeyEvent.VK_ENTER) {
-					Clientes clientes = new Clientes();
-					ClientesDAO dao = new ClientesDAO();
-					clientes=dao.buscaCep(txtCep.getText());
+					Fornecedores Fornecedores = new Fornecedores();
+					FornecedoresDAO dao = new FornecedoresDAO();
+					Fornecedores=dao.buscaCep(txtCep.getText());
 					
-					txtEndereco.setText(clientes.getEndereco());
-					txtBairro.setText(clientes.getBairro());
-					txtCidade.setText(clientes.getCidade());
-					cmbUF.setSelectedItem(clientes.getUf());
+					txtEndereco.setText(Fornecedores.getEndereco());
+					txtBairro.setText(Fornecedores.getBairro());
+					txtCidade.setText(Fornecedores.getCidade());
+					cmbUF.setSelectedItem(Fornecedores.getUf());
 				}
 				
 				}
@@ -298,28 +288,28 @@ public class FrmClientes extends JFrame {
 			btnBuscarCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String nome = txtNome.getText();
-					Clientes clientes = new Clientes();
-					ClientesDAO dao = new ClientesDAO();
+					Fornecedores Fornecedores = new Fornecedores();
+					FornecedoresDAO dao = new FornecedoresDAO();
 
-					clientes = dao.consultaNome(nome);
+					Fornecedores = dao.consultaNome(nome);
 
 					// Exibir os dados do cliente nos campos de texto
 
-					if (clientes.getNome() != null) {
-						txtCodigo.setText(String.valueOf(clientes.getId()));
-						txtNome.setText(clientes.getNome());
-						txtRg.setText(clientes.getRg());
-						txtCpf.setText(clientes.getCpf());
-						txtEmail.setText(clientes.getEmail());
-						txtTelefone.setText(clientes.getTelefone());
-						txtCelular.setText(clientes.getCelular());
-						txtCep.setText(clientes.getCep());
-						txtEndereco.setText(clientes.getEndereco());
-						txtNumero.setText(String.valueOf(clientes.getNumero()));
-						txtComplemento.setText(clientes.getComplemento());
-						txtBairro.setText(clientes.getBairro());
-						txtCidade.setText(clientes.getCidade());
-						cmbUF.setSelectedItem(clientes.getUf());
+					if (Fornecedores.getNome() != null) {
+						txtCodigo.setText(String.valueOf(Fornecedores.getId()));
+						txtNome.setText(Fornecedores.getNome());
+						txtCnpj.setText(Fornecedores.getRg());
+						txtCpf.setText(Fornecedores.getCpf());
+						txtEmail.setText(Fornecedores.getEmail());
+						txtTelefone.setText(Fornecedores.getTelefone());
+						txtCelular.setText(Fornecedores.getCelular());
+						txtCep.setText(Fornecedores.getCep());
+						txtEndereco.setText(Fornecedores.getEndereco());
+						txtNumero.setText(String.valueOf(Fornecedores.getNumero()));
+						txtComplemento.setText(Fornecedores.getComplemento());
+						txtBairro.setText(Fornecedores.getBairro());
+						txtCidade.setText(Fornecedores.getCidade());
+						cmbUF.setSelectedItem(Fornecedores.getUf());
 					} else {
 						JOptionPane.showMessageDialog(null, "cliente nao encontrado");
 					}
@@ -333,7 +323,7 @@ public class FrmClientes extends JFrame {
 
 		JPanel pnlConsulta = new JPanel();
 		pnlConsulta.setBackground(new Color(255, 255, 255));
-		tabbedPane.addTab("Consulta de clientes", null, pnlConsulta, null);
+		tabbedPane.addTab("Consulta de Fornecedores", null, pnlConsulta, null);
 		pnlConsulta.setLayout(null);
 
 		JButton btnPesquisarNome = new JButton("Pesquisar");
@@ -344,12 +334,12 @@ public class FrmClientes extends JFrame {
 
 				String nome = "%" + txtNomeConsulta.getText() + "%";
 
-				ClientesDAO dao = new ClientesDAO();
-				List<Clientes> list = dao.pesquisarClientesPorNome(nome);
-				DefaultTableModel dados = (DefaultTableModel) tblClientes.getModel();
+				FornecedoresDAO dao = new FornecedoresDAO();
+				List<Fornecedores> list = dao.pesquisarFornecedoresPorNome(nome);
+				DefaultTableModel dados = (DefaultTableModel) tblFornecedores.getModel();
 				dados.setNumRows(0);
 
-				for (Clientes c : list) {
+				for (Fornecedores c : list) {
 
 					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
 							c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(),
@@ -373,12 +363,12 @@ public class FrmClientes extends JFrame {
 
 				String nome = "%" + txtNomeConsulta.getText() + "%";
 
-				ClientesDAO dao = new ClientesDAO();
-				List<Clientes> list = dao.pesquisarClientesPorNome(nome);
-				DefaultTableModel dados = (DefaultTableModel) tblClientes.getModel();
+				FornecedoresDAO dao = new FornecedoresDAO();
+				List<Fornecedores> list = dao.pesquisarFornecedoresPorNome(nome);
+				DefaultTableModel dados = (DefaultTableModel) tblFornecedores.getModel();
 				dados.setNumRows(0);
 
-				for (Clientes c : list) {
+				for (Fornecedores c : list) {
 
 					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
 							c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(),
@@ -392,38 +382,38 @@ public class FrmClientes extends JFrame {
 		txtNomeConsulta.setBounds(83, 13, 402, 20);
 		pnlConsulta.add(txtNomeConsulta);
 
-		tblClientes = new JTable();
-		tblClientes.addMouseListener(new MouseAdapter() {
+		tblFornecedores = new JTable();
+		tblFornecedores.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				pnlDados.setVisible(true);
-				txtCodigo.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
-				txtNome.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 1).toString());
-				txtRg.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 2).toString());
-				txtCpf.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 3).toString());
-				txtEmail.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 4).toString());
-				txtTelefone.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 5).toString());
-				txtCelular.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 6).toString());
-				txtCep.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 7).toString());
-				txtEndereco.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 8).toString());
-				txtNumero.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 9).toString());
-				txtComplemento.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 10).toString());
-				txtBairro.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 11).toString());
-				txtCidade.setText(tblClientes.getValueAt(tblClientes.getSelectedRow(), 12).toString());
-				cmbUF.setSelectedItem(tblClientes.getValueAt(tblClientes.getSelectedRow(), 13).toString());
+				txtCodigo.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
+				txtNome.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 1).toString());
+				txtCnpj.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 2).toString());
+				txtCpf.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 3).toString());
+				txtEmail.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 4).toString());
+				txtTelefone.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 5).toString());
+				txtCelular.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 6).toString());
+				txtCep.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 7).toString());
+				txtEndereco.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 8).toString());
+				txtNumero.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 9).toString());
+				txtComplemento.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 10).toString());
+				txtBairro.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 11).toString());
+				txtCidade.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 12).toString());
+				cmbUF.setSelectedItem(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 13).toString());
 
 			}
 		});
-		tblClientes.setForeground(new Color(0, 0, 0));
-		tblClientes.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "C\u00F3digo", "Nome", "RG", "CPF", "Email", "Telefone", "Celular", "CEP",
+		tblFornecedores.setForeground(new Color(0, 0, 0));
+		tblFornecedores.setModel(new DefaultTableModel(new Object[][] {},
+				new String[] { "C\u00F3digo", "Nome", "CNPJ", "Email", "Telefone", "Celular", "CEP",
 						"Endere\u00E7o", "N\u00BA", "Complemento", "Bairro", "Cidade", "UF" }));
-		tblClientes.setBounds(0, 56, 892, 102);
-		tblClientes.setVisible(true);
-		pnlConsulta.add(tblClientes);
+		tblFornecedores.setBounds(0, 56, 892, 102);
+		tblFornecedores.setVisible(true);
+		pnlConsulta.add(tblFornecedores);
 
 		// Adicione a tabela a um JScrollPane
-		JScrollPane scrollPane = new JScrollPane(tblClientes);
+		JScrollPane scrollPane = new JScrollPane(tblFornecedores);
 		scrollPane.setBounds(0, 56, 887, 145); // Defina as dimensões apropriadas
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // Configura a barra de
 																								// rolagem vertical
@@ -448,24 +438,24 @@ public class FrmClientes extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do Botao Salvar
-				Clientes clientes = new Clientes();
+				Fornecedores Fornecedores = new Fornecedores();
 
-				clientes.setNome(txtNome.getText());
-				clientes.setRg(txtRg.getText());
-				clientes.setCpf(txtCpf.getText());
-				clientes.setEmail(txtEmail.getText());
-				clientes.setTelefone(txtTelefone.getText());
-				clientes.setCelular(txtCelular.getText());
-				clientes.setCep(txtCep.getText());
-				clientes.setEndereco(txtEndereco.getText());
-				clientes.setNumero(Integer.parseInt(txtNumero.getText()));
-				clientes.setComplemento(txtComplemento.getText());
-				clientes.setBairro(txtBairro.getText());
-				clientes.setCidade(txtCidade.getText());
-				clientes.setUf(cmbUF.getSelectedItem().toString());
+				Fornecedores.setNome(txtNome.getText());
+				Fornecedores.setRg(txtCnpj.getText());
+				Fornecedores.setCpf(txtCpf.getText());
+				Fornecedores.setEmail(txtEmail.getText());
+				Fornecedores.setTelefone(txtTelefone.getText());
+				Fornecedores.setCelular(txtCelular.getText());
+				Fornecedores.setCep(txtCep.getText());
+				Fornecedores.setEndereco(txtEndereco.getText());
+				Fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
+				Fornecedores.setComplemento(txtComplemento.getText());
+				Fornecedores.setBairro(txtBairro.getText());
+				Fornecedores.setCidade(txtCidade.getText());
+				Fornecedores.setUf(cmbUF.getSelectedItem().toString());
 
-				ClientesDAO dao = new ClientesDAO();
-				dao.cadastrarCliente(clientes);
+				FornecedoresDAO dao = new FornecedoresDAO();
+				dao.cadastrarCliente(Fornecedores);
 				pnlConsulta.setVisible(true);
 				listarTabela();
 				pnlConsulta.setVisible(false);
@@ -484,25 +474,25 @@ public class FrmClientes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao editar
 
-				Clientes clientes = new Clientes();
+				Fornecedores Fornecedores = new Fornecedores();
 
-				clientes.setNome(txtNome.getText());
-				clientes.setRg(txtRg.getText());
-				clientes.setCpf(txtCpf.getText());
-				clientes.setEmail(txtEmail.getText());
-				clientes.setTelefone(txtTelefone.getText());
-				clientes.setCelular(txtCelular.getText());
-				clientes.setCep(txtCep.getText());
-				clientes.setEndereco(txtEndereco.getText());
-				clientes.setNumero(Integer.parseInt(txtNumero.getText()));
-				clientes.setComplemento(txtComplemento.getText());
-				clientes.setBairro(txtBairro.getText());
-				clientes.setCidade(txtCidade.getText());
-				clientes.setUf(cmbUF.getSelectedItem().toString());
-				clientes.setId(Integer.parseInt(txtCodigo.getText()));
+				Fornecedores.setNome(txtNome.getText());
+				Fornecedores.setRg(txtCnpj.getText());
+				Fornecedores.setCpf(txtCpf.getText());
+				Fornecedores.setEmail(txtEmail.getText());
+				Fornecedores.setTelefone(txtTelefone.getText());
+				Fornecedores.setCelular(txtCelular.getText());
+				Fornecedores.setCep(txtCep.getText());
+				Fornecedores.setEndereco(txtEndereco.getText());
+				Fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
+				Fornecedores.setComplemento(txtComplemento.getText());
+				Fornecedores.setBairro(txtBairro.getText());
+				Fornecedores.setCidade(txtCidade.getText());
+				Fornecedores.setUf(cmbUF.getSelectedItem().toString());
+				Fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
 
-				ClientesDAO dao = new ClientesDAO();
-				dao.alterarCliente(clientes);
+				FornecedoresDAO dao = new FornecedoresDAO();
+				dao.alterarCliente(Fornecedores);
 
 				new Utilitarios().LimparTela(pnlDados);
 				pnlConsulta.setVisible(true);
@@ -520,12 +510,12 @@ public class FrmClientes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao excluir
 
-				Clientes clientes = new Clientes();
+				Fornecedores Fornecedores = new Fornecedores();
 
-				clientes.setId(Integer.parseInt(txtCodigo.getText()));
+				Fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
 
-				ClientesDAO dao = new ClientesDAO();
-				dao.excluirCliente(clientes);
+				FornecedoresDAO dao = new FornecedoresDAO();
+				dao.excluirCliente(Fornecedores);
 				pnlConsulta.setVisible(true);
 				listarTabela();
 				pnlConsulta.setVisible(false);
@@ -542,12 +532,12 @@ public class FrmClientes extends JFrame {
 	}
 
 	public void listarTabela() {
-		ClientesDAO dao = new ClientesDAO();
-		List<Clientes> lista = dao.listarClientes();
-		DefaultTableModel dadosTabela = (DefaultTableModel) tblClientes.getModel();
+		FornecedoresDAO dao = new FornecedoresDAO();
+		List<Fornecedores> lista = dao.listarFornecedores();
+		DefaultTableModel dadosTabela = (DefaultTableModel) tblFornecedores.getModel();
 		dadosTabela.setNumRows(0);
 
-		for (Clientes c : lista) {
+		for (Fornecedores c : lista) {
 
 			dadosTabela.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
 					c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(), c.getComplemento(),
