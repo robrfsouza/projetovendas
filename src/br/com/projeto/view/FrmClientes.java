@@ -33,6 +33,7 @@ import javax.swing.text.MaskFormatter;
 import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Utilitarios;
+import javax.swing.ImageIcon;
 
 public class FrmClientes extends JFrame {
 
@@ -98,6 +99,11 @@ public class FrmClientes extends JFrame {
 		panel.add(lblNewLabel);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(FrmClientes.class.getResource("/imagem/clientes.png")));
+		lblNewLabel_2.setBounds(264, 11, 48, 48);
+		panel.add(lblNewLabel_2);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 85, 891, 229);
@@ -435,7 +441,8 @@ public class FrmClientes extends JFrame {
 		pnlConsulta.add(scrollPane);
 
 		JButton btnNovo = new JButton("NOVO");
-		btnNovo.setBounds(208, 325, 113, 47);
+		btnNovo.setIcon(new ImageIcon(FrmClientes.class.getResource("/imagem/novo.png")));
+		btnNovo.setBounds(158, 319, 140, 60);
 		contentPane.add(btnNovo);
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -445,6 +452,7 @@ public class FrmClientes extends JFrame {
 		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btnSalvar = new JButton("SALVAR");
+		btnSalvar.setIcon(new ImageIcon(FrmClientes.class.getResource("/imagem/salvar.png")));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do Botao Salvar
@@ -475,11 +483,12 @@ public class FrmClientes extends JFrame {
 			}
 		});
 
-		btnSalvar.setBounds(331, 325, 113, 47);
+		btnSalvar.setBounds(308, 319, 140, 60);
 		contentPane.add(btnSalvar);
 		btnSalvar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btnEditar = new JButton("EDITAR");
+		btnEditar.setIcon(new ImageIcon(FrmClientes.class.getResource("/imagem/editar.png")));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao editar
@@ -511,11 +520,12 @@ public class FrmClientes extends JFrame {
 
 			}
 		});
-		btnEditar.setBounds(454, 325, 113, 47);
+		btnEditar.setBounds(458, 319, 140, 60);
 		contentPane.add(btnEditar);
 		btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		JButton btnExcluir = new JButton("EXCLUIR");
+		btnExcluir.setIcon(new ImageIcon(FrmClientes.class.getResource("/imagem/excluir.png")));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao excluir
@@ -534,7 +544,7 @@ public class FrmClientes extends JFrame {
 
 			}
 		});
-		btnExcluir.setBounds(577, 325, 113, 47);
+		btnExcluir.setBounds(608, 319, 140, 60);
 		contentPane.add(btnExcluir);
 		btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 

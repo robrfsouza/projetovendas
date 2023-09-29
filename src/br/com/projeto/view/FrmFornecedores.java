@@ -5,8 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -33,6 +31,7 @@ import javax.swing.text.MaskFormatter;
 import br.com.projeto.dao.FornecedoresDAO;
 import br.com.projeto.model.Fornecedores;
 import br.com.projeto.model.Utilitarios;
+import javax.swing.ImageIcon;
 
 public class FrmFornecedores extends JFrame {
 
@@ -93,10 +92,15 @@ public class FrmFornecedores extends JFrame {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Cadastro de Fornecedores");
-		lblNewLabel.setBounds(10, 21, 244, 29);
+		lblNewLabel.setBounds(10, 21, 310, 29);
 		panel.add(lblNewLabel);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(FrmFornecedores.class.getResource("/imagem/fornecedores.png")));
+		lblNewLabel_2.setBounds(330, 11, 48, 48);
+		panel.add(lblNewLabel_2);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 85, 891, 229);
@@ -265,18 +269,18 @@ public class FrmFornecedores extends JFrame {
 			txtCep.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
-				//programcao keyevent
-				if(e.getKeyCode()== KeyEvent.VK_TAB || e.getKeyCode()==KeyEvent.VK_ENTER) {
-					Fornecedores Fornecedores = new Fornecedores();
-					FornecedoresDAO dao = new FornecedoresDAO();
-					Fornecedores=dao.buscaCep(txtCep.getText());
-					
-					txtEndereco.setText(Fornecedores.getEndereco());
-					txtBairro.setText(Fornecedores.getBairro());
-					txtCidade.setText(Fornecedores.getCidade());
-					cmbUF.setSelectedItem(Fornecedores.getUf());
-				}
-				
+					// programcao keyevent
+					if (e.getKeyCode() == KeyEvent.VK_TAB || e.getKeyCode() == KeyEvent.VK_ENTER) {
+						Fornecedores Fornecedores = new Fornecedores();
+						FornecedoresDAO dao = new FornecedoresDAO();
+						Fornecedores = dao.buscaCep(txtCep.getText());
+
+						txtEndereco.setText(Fornecedores.getEndereco());
+						txtBairro.setText(Fornecedores.getBairro());
+						txtCidade.setText(Fornecedores.getCidade());
+						cmbUF.setSelectedItem(Fornecedores.getUf());
+					}
+
 				}
 			});
 			txtCep.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -288,28 +292,28 @@ public class FrmFornecedores extends JFrame {
 			btnBuscarCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String nome = txtNome.getText();
-					Fornecedores Fornecedores = new Fornecedores();
+					Fornecedores fornecedores = new Fornecedores();
 					FornecedoresDAO dao = new FornecedoresDAO();
 
-					Fornecedores = dao.consultaNome(nome);
+					fornecedores = dao.consultaNome(nome);
 
 					// Exibir os dados do cliente nos campos de texto
 
-					if (Fornecedores.getNome() != null) {
-						txtCodigo.setText(String.valueOf(Fornecedores.getId()));
-						txtNome.setText(Fornecedores.getNome());
-						txtCnpj.setText(Fornecedores.getRg());
-						txtCpf.setText(Fornecedores.getCpf());
-						txtEmail.setText(Fornecedores.getEmail());
-						txtTelefone.setText(Fornecedores.getTelefone());
-						txtCelular.setText(Fornecedores.getCelular());
-						txtCep.setText(Fornecedores.getCep());
-						txtEndereco.setText(Fornecedores.getEndereco());
-						txtNumero.setText(String.valueOf(Fornecedores.getNumero()));
-						txtComplemento.setText(Fornecedores.getComplemento());
-						txtBairro.setText(Fornecedores.getBairro());
-						txtCidade.setText(Fornecedores.getCidade());
-						cmbUF.setSelectedItem(Fornecedores.getUf());
+					if (fornecedores.getNome() != null) {
+						txtCodigo.setText(String.valueOf(fornecedores.getId()));
+						txtNome.setText(fornecedores.getNome());
+						txtCnpj.setText(fornecedores.getRg());
+						txtCnpj.setText(fornecedores.getCnpj());
+						txtEmail.setText(fornecedores.getEmail());
+						txtTelefone.setText(fornecedores.getTelefone());
+						txtCelular.setText(fornecedores.getCelular());
+						txtCep.setText(fornecedores.getCep());
+						txtEndereco.setText(fornecedores.getEndereco());
+						txtNumero.setText(String.valueOf(fornecedores.getNumero()));
+						txtComplemento.setText(fornecedores.getComplemento());
+						txtBairro.setText(fornecedores.getBairro());
+						txtCidade.setText(fornecedores.getCidade());
+						cmbUF.setSelectedItem(fornecedores.getUf());
 					} else {
 						JOptionPane.showMessageDialog(null, "cliente nao encontrado");
 					}
@@ -341,9 +345,9 @@ public class FrmFornecedores extends JFrame {
 
 				for (Fornecedores c : list) {
 
-					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
-							c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(),
-							c.getComplemento(), c.getBairro(), c.getCidade(), c.getUf() });
+					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getCnpj(), c.getEmail(), c.getTelefone(),
+							c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(), c.getComplemento(),
+							c.getBairro(), c.getCidade(), c.getUf() });
 				}
 
 			}
@@ -370,9 +374,9 @@ public class FrmFornecedores extends JFrame {
 
 				for (Fornecedores c : list) {
 
-					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
-							c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(),
-							c.getComplemento(), c.getBairro(), c.getCidade(), c.getUf() });
+					dados.addRow(new Object[] { c.getId(), c.getNome(), c.getCnpj(), c.getEmail(), c.getTelefone(),
+							c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(), c.getComplemento(),
+							c.getBairro(), c.getCidade(), c.getUf() });
 				}
 
 			}
@@ -390,24 +394,23 @@ public class FrmFornecedores extends JFrame {
 				txtCodigo.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 0).toString());
 				txtNome.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 1).toString());
 				txtCnpj.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 2).toString());
-				txtCpf.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 3).toString());
-				txtEmail.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 4).toString());
-				txtTelefone.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 5).toString());
-				txtCelular.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 6).toString());
-				txtCep.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 7).toString());
-				txtEndereco.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 8).toString());
-				txtNumero.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 9).toString());
-				txtComplemento.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 10).toString());
-				txtBairro.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 11).toString());
-				txtCidade.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 12).toString());
-				cmbUF.setSelectedItem(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 13).toString());
+				txtEmail.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 3).toString());
+				txtTelefone.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 4).toString());
+				txtCelular.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 5).toString());
+				txtCep.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 6).toString());
+				txtEndereco.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 7).toString());
+				txtNumero.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 8).toString());
+				txtComplemento.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 9).toString());
+				txtBairro.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 10).toString());
+				txtCidade.setText(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 11).toString());
+				cmbUF.setSelectedItem(tblFornecedores.getValueAt(tblFornecedores.getSelectedRow(), 12).toString());
 
 			}
 		});
 		tblFornecedores.setForeground(new Color(0, 0, 0));
 		tblFornecedores.setModel(new DefaultTableModel(new Object[][] {},
-				new String[] { "C\u00F3digo", "Nome", "CNPJ", "Email", "Telefone", "Celular", "CEP",
-						"Endere\u00E7o", "N\u00BA", "Complemento", "Bairro", "Cidade", "UF" }));
+				new String[] { "C\u00F3digo", "Nome", "CNPJ", "Email", "Telefone", "Celular", "CEP", "Endere\u00E7o",
+						"N\u00BA", "Complemento", "Bairro", "Cidade", "UF" }));
 		tblFornecedores.setBounds(0, 56, 892, 102);
 		tblFornecedores.setVisible(true);
 		pnlConsulta.add(tblFornecedores);
@@ -438,24 +441,24 @@ public class FrmFornecedores extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do Botao Salvar
-				Fornecedores Fornecedores = new Fornecedores();
+				Fornecedores fornecedores = new Fornecedores();
 
-				Fornecedores.setNome(txtNome.getText());
-				Fornecedores.setRg(txtCnpj.getText());
-				Fornecedores.setCpf(txtCpf.getText());
-				Fornecedores.setEmail(txtEmail.getText());
-				Fornecedores.setTelefone(txtTelefone.getText());
-				Fornecedores.setCelular(txtCelular.getText());
-				Fornecedores.setCep(txtCep.getText());
-				Fornecedores.setEndereco(txtEndereco.getText());
-				Fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
-				Fornecedores.setComplemento(txtComplemento.getText());
-				Fornecedores.setBairro(txtBairro.getText());
-				Fornecedores.setCidade(txtCidade.getText());
-				Fornecedores.setUf(cmbUF.getSelectedItem().toString());
+				fornecedores.setNome(txtNome.getText());
+				fornecedores.setRg(txtCnpj.getText());
+				fornecedores.setCnpj(txtCnpj.getText());
+				fornecedores.setEmail(txtEmail.getText());
+				fornecedores.setTelefone(txtTelefone.getText());
+				fornecedores.setCelular(txtCelular.getText());
+				fornecedores.setCep(txtCep.getText());
+				fornecedores.setEndereco(txtEndereco.getText());
+				fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
+				fornecedores.setComplemento(txtComplemento.getText());
+				fornecedores.setBairro(txtBairro.getText());
+				fornecedores.setCidade(txtCidade.getText());
+				fornecedores.setUf(cmbUF.getSelectedItem().toString());
 
 				FornecedoresDAO dao = new FornecedoresDAO();
-				dao.cadastrarCliente(Fornecedores);
+				dao.cadastrarFornecedores(fornecedores);
 				pnlConsulta.setVisible(true);
 				listarTabela();
 				pnlConsulta.setVisible(false);
@@ -474,25 +477,25 @@ public class FrmFornecedores extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao editar
 
-				Fornecedores Fornecedores = new Fornecedores();
+				Fornecedores fornecedores = new Fornecedores();
 
-				Fornecedores.setNome(txtNome.getText());
-				Fornecedores.setRg(txtCnpj.getText());
-				Fornecedores.setCpf(txtCpf.getText());
-				Fornecedores.setEmail(txtEmail.getText());
-				Fornecedores.setTelefone(txtTelefone.getText());
-				Fornecedores.setCelular(txtCelular.getText());
-				Fornecedores.setCep(txtCep.getText());
-				Fornecedores.setEndereco(txtEndereco.getText());
-				Fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
-				Fornecedores.setComplemento(txtComplemento.getText());
-				Fornecedores.setBairro(txtBairro.getText());
-				Fornecedores.setCidade(txtCidade.getText());
-				Fornecedores.setUf(cmbUF.getSelectedItem().toString());
-				Fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
+				fornecedores.setNome(txtNome.getText());
+				fornecedores.setRg(txtCnpj.getText());
+				fornecedores.setCnpj(txtCnpj.getText());
+				fornecedores.setEmail(txtEmail.getText());
+				fornecedores.setTelefone(txtTelefone.getText());
+				fornecedores.setCelular(txtCelular.getText());
+				fornecedores.setCep(txtCep.getText());
+				fornecedores.setEndereco(txtEndereco.getText());
+				fornecedores.setNumero(Integer.parseInt(txtNumero.getText()));
+				fornecedores.setComplemento(txtComplemento.getText());
+				fornecedores.setBairro(txtBairro.getText());
+				fornecedores.setCidade(txtCidade.getText());
+				fornecedores.setUf(cmbUF.getSelectedItem().toString());
+				fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
 
 				FornecedoresDAO dao = new FornecedoresDAO();
-				dao.alterarCliente(Fornecedores);
+				dao.alterarFornecedores(fornecedores);
 
 				new Utilitarios().LimparTela(pnlDados);
 				pnlConsulta.setVisible(true);
@@ -510,12 +513,12 @@ public class FrmFornecedores extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// execucao do botao excluir
 
-				Fornecedores Fornecedores = new Fornecedores();
+				Fornecedores fornecedores = new Fornecedores();
 
-				Fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
+				fornecedores.setId(Integer.parseInt(txtCodigo.getText()));
 
 				FornecedoresDAO dao = new FornecedoresDAO();
-				dao.excluirCliente(Fornecedores);
+				dao.excluirFornecedores(fornecedores);
 				pnlConsulta.setVisible(true);
 				listarTabela();
 				pnlConsulta.setVisible(false);
@@ -539,11 +542,10 @@ public class FrmFornecedores extends JFrame {
 
 		for (Fornecedores c : lista) {
 
-			dadosTabela.addRow(new Object[] { c.getId(), c.getNome(), c.getRg(), c.getCpf(), c.getEmail(),
-					c.getTelefone(), c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(), c.getComplemento(),
-					c.getBairro(), c.getCidade(), c.getUf() });
+			dadosTabela.addRow(new Object[] { c.getId(), c.getNome(), c.getCnpj(), c.getEmail(), c.getTelefone(),
+					c.getCelular(), c.getCep(), c.getEndereco(), c.getNumero(), c.getComplemento(), c.getBairro(),
+					c.getCidade(), c.getUf() });
 		}
 
 	}
-
 }

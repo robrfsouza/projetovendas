@@ -35,6 +35,7 @@ import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Funcionarios;
 import br.com.projeto.model.Utilitarios;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 
 public class FrmFuncionarios extends JFrame {
 
@@ -104,6 +105,11 @@ public class FrmFuncionarios extends JFrame {
 		panel.add(lblNewLabel);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setIcon(new ImageIcon(FrmFuncionarios.class.getResource("/imagem/funcionarios.png")));
+		lblNewLabel_5.setBounds(321, 11, 48, 48);
+		panel.add(lblNewLabel_5);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 85, 891, 229);

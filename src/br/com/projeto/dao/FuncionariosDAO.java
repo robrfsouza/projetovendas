@@ -204,7 +204,7 @@ public class FuncionariosDAO {
 			// conectar o banco de dados e organizar o comando sql
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setNString(1, nome);
-			
+
 			ResultSet resultset = stmt.executeQuery();
 			Funcionarios funcionarios = new Funcionarios();
 
@@ -285,40 +285,38 @@ public class FuncionariosDAO {
 		}
 
 	}
-	
-	//Método logar
+
+	// Método logar
 	public void Logar(String email, String senha) {
 		try {
-			//SQL
+			// SQL
 			String sql = "select * from tb_funcionarios where email=? and senha=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setNString(1, email);
 			stmt.setNString(2, senha);
-			
+
 			ResultSet resultset = stmt.executeQuery();
-			
-			if(resultset.next()) {
-				//logou
+
+			if (resultset.next()) {
+				// logou
 				JOptionPane.showMessageDialog(null, "Bem vindo ao Sistema!");
 				FrmPrincipal principal = new FrmPrincipal();
-				principal.usuarioLogado=resultset.getString("nome");
+				principal.usuarioLogado = resultset.getString("nome");
 				principal.lblUsuario.setText(principal.usuarioLogado);
 				principal.setVisible(true);
-			
-			}
-			else {
+
+			} else {
 				// nao logou
 				JOptionPane.showMessageDialog(null, "Dados incorretos!");
 				FrmLogin frmLogin = new FrmLogin();
 				frmLogin.setLocationRelativeTo(null);
 				frmLogin.setVisible(true);
-				
+
 			}
-				
-			
+
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,"Erro ao logar: /n"+ e.getMessage());
-			
+			JOptionPane.showMessageDialog(null, "Erro ao logar: /n" + e.getMessage());
+
 		}
 	}
 }
